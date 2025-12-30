@@ -1,20 +1,14 @@
-import { AppDataSource } from "./data-source"
-import { User } from "./entity/User"
+import express from "express";
+import cors from 'cors';
+import app from "./app";
 
-AppDataSource.initialize().then(async () => {
+const server = express();
+const PORT = 3000;
+const application = app
 
-    console.log("Inserting a new user into the database...")
-    const user = new User()
-    user.firstName = "Timber"
-    user.lastName = "Saw"
-    user.age = 25
-    await AppDataSource.manager.save(user)
-    console.log("Saved a new user with id: " + user.id)
+server.use(application);
 
-    console.log("Loading users from the database...")
-    const users = await AppDataSource.manager.find(User)
-    console.log("Loaded users: ", users)
 
-    console.log("Here you can setup and run express / fastify / any other framework.")
-
-}).catch(error => console.log(error))
+app.listen(PORT, () =>{
+    console.log(`Rodando em http://localhost:${PORT}`)
+})
